@@ -5,6 +5,9 @@ const noticeschema = new mongoose.Schema(
             type:String,
             required:true,
         },
+        category:{
+            type:String,
+        },
         content:{
             type:String,
             required:true,

@@ -3,6 +3,7 @@ const cors=require("cors");
 
 const app=express();
 const authRoutes=require("./routes/authRoutes");
+const noticeRoutes=require("./routes/noticeRoutes");
 // middlewares
 app.use(cors());
 app.use(express.json());
@@ -16,4 +17,5 @@ app.get("/",(req,res)=>{
     );
 });
 app.use("/api/v1/auth",authRoutes);
+app.use("/api/v1/notice",noticeRoutes);
 module.exports=app;

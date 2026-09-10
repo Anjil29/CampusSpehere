@@ -1,4 +1,11 @@
 const express = require("express");
 const authMiddleware= require("../middleware/authMiddleware");
 const roleMiddleware=require("../middleware/roleMiddleware");
-const {create}
+const {noticeCreate,getNotices,NoticeById,noticeUpdate,noticeDelete}= require("../controllers/noticeController");
+const router=express.Router();
+router.post("/createNotice",authMiddleware,roleMiddleware("ADMIN"),noticeCreate);
+router.get("/getNotices",authMiddleware,getNotices);
+router.get("/getNotice/:id",authMiddleware,NoticeById);
+router.get("/updateNotice/:id",authMiddleware,noticeUpdate);
+router.delete("/deleteNotice/:id",authMiddleware,roleMiddleware("ADMIN"),noticeDelete);
+module.exports=router;

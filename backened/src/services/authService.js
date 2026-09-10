@@ -2,7 +2,7 @@
 const User= require("../models/User");
 const {hashPassword,comparePassword}= require("../utils/password");
 const {generateToken}= require("../utils/jwt");
-const registerUser=async ({name,email,password,department,year,interests})=>{
+const registerUser=async ({name,email,password,department,year,interests,role})=>{
     const existingUser=await User.findOne({email});
     if(existingUser){
         throw new Error("User already exists"); 
@@ -15,7 +15,8 @@ const registerUser=async ({name,email,password,department,year,interests})=>{
             password:hashedPassword,
             department,
             year,
-            interests
+            interests,
+            role
         }
     );
     const token= generateToken(user);
