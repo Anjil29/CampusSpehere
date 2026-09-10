@@ -1,0 +1,49 @@
+const mongoose=require("mongoose");
+const reportSchema= new mongoose.Schema(
+    {
+        reportedBy:{
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"User",
+            required:true,
+        },
+        targetType:{
+            type:String,
+            enum:["POST","COMMENT","RESOURCE","USER"],
+            required:true,
+        },
+        targetId:{
+            type:mongoose.Schema.Types.ObjectId,
+            required:true,
+        },
+        reason:{
+            type:String,
+            enum:[
+                "SPAM",
+                "HARASSMENT",
+                "INAPPROPRIATE_CONTENT",
+                "MISINFORMATION",
+                "OTHER"
+            ],
+            required:true,
+        },
+        description:{
+            type:String,
+            trim:true,
+            default:"",
+        },
+        reviewedBy:{
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"User",
+        },
+        adminNote:{
+            type:String,
+            trim:true,
+            default:"",
+        },
+    },
+    {
+        timestamps:true,
+    }
+);
+const Report = mongoose.model("Report",reportSchema);
+module.exports=Report;

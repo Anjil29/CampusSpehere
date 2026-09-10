@@ -1,0 +1,47 @@
+const mongoose = require("mongoose");
+const notificationschema = new mongoose.Schema(
+    {
+        recepient:{
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"User",
+            required:true,
+        },
+        type:{
+            type:String,
+            enum:[
+                "EVENT",
+                "CLUB",
+                "NOTICE",
+                "POST",
+                "RESOURCE",
+                "TASK",
+                "SYSTEM",
+            ]
+        },
+        title:{
+            type:String,
+            required:true,
+            trim:true,
+        },
+        message:{
+            type:String,
+            required:true,
+            trim:true,
+        },
+        relatedEntity:{
+            type:mongoose.Schema.Types.ObjectId,
+        },
+        isRead:{
+            type:Boolean,
+            default:false,
+        },
+        expiresAt:{
+            type:Date
+        },
+    },
+    {
+        timestamps:true,
+    }
+);
+const Notification= mongoose.model("Notification",notificationschema);
+module.exports=Notification;
