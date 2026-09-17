@@ -1,4 +1,6 @@
 const mongoose= require("mongoose");
+const User = require("./User");
+const Club = require("./Club");
 const eventSchema=new mongoose.Schema(
     {
         title:{
