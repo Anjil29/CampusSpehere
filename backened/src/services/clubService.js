@@ -170,6 +170,32 @@ const leaveClub=async(clubId,userId)=>{
 
 
 
+const makeClubAdmin=async (clubId,userId,currentUser)=>{
+    if(currentUser.role!=="ADMIN"){
+        throw new Error("You are not authorized to access this route");
+    }
+    const club=await Club.findOne({
+        _id:clubId,
+        isActive:true
+    });
+    if(!club){
+        throw new Error("Club not found");
+    }
+    const membership= await ClubMembership.findOne({
+        club:clubId,
+        user:userId,
+        status:"ACTIVE"
+    });
+    if(!membership){
+        throw new Error("User must be the active member of the club");
+    }
+    membership.role="ADMIN";
+    await membership.save();
+    await User.findByIdAndUpdate(userId,{
+        role:"CLUB_ADMIN"
+    });
+    return membership;
+}
 
 
-module.exports={createClub,getAllClubs,getClubById,JoinClub,getClubMembers,updateMemberStatus,leaveClub};
+module.exports={createClub,getAllClubs,getClubById,JoinClub,getClubMembers,updateMemberStatus,leaveClub,makeClubAdmin};

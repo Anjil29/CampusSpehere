@@ -1,5 +1,6 @@
 
-const {createClub,getAllClubs,getClubById,JoinClub,getClubMembers,updateMemberStatus,leaveClub} = require("../services/clubService");
+const ClubMembership = require("../models/ClubMembership");
+const {createClub,getAllClubs,getClubById,JoinClub,getClubMembers,updateMemberStatus,leaveClub,makeClubAdmin} = require("../services/clubService");
 const ClubCreate = async (req,res)=>{
     try{
 
@@ -115,5 +116,26 @@ const clubLeave=async(req,res)=>{
             message:err.message
         })
     }
+};
+const MakeClubAdmin=async(req,res)=>{
+    try{
+        const membership=await makeClubAdmin(
+            req.params.id,
+            req.params.userId,
+            req.user
+        );
+        res.status(200).json({
+            success:true,
+            message:"Club admin assigned successfully",
+            data:membership
+        })
+    }
+    catch(err){
+        res.status(400).json({
+             success:false,
+            message:err.message
+        });
+       
+    }
 }
-module.exports={ClubCreate,getClubs,getClub,ClubJoin,getMembersOfClub,UpdateStatusOfMembers,clubLeave};
+module.exports={ClubCreate,getClubs,getClub,ClubJoin,getMembersOfClub,UpdateStatusOfMembers,clubLeave,MakeClubAdmin};
