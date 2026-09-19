@@ -28,5 +28,37 @@ const getAllComments=async(postId)=>{
     // .populate("content")  populate() sirf un fields ke liye hota hai jo kisi dusre MongoDB document/model ko reference karti hain.
     .sort({createdAt:1});
     return comments;
+};
+
+const updateComment=async(commentId,content,user)=>{
+    const comment=await Comment.findById(commentId);
+    if(!comment){
+        throw new Error("Comment not found");
+    }
+    if(user.role!=="ADMIN" && comment.author.toString()!==user.id){
+        throw new Error("You are not authorized to update this comment");
+
+    }
+    comment.content=content;
+    await comment.save();
+    return comment;
+};
+// admin can delete any comment if it exits
+// club admin and student can delete comment on their posts only
+const deleteComment=async(commentId,user)=>{
+    const comment= Comment.findById(commentId);
+    if(!comment){
+        throw new("Comment not found");
+    }
+    if(user.role!=="ADMIN" && comment.author.toString()!==user.id){
+        throw new Error("You are not authorized to delete this comment");
+    };
+    await comment.deleteOne();
+    const post= await Post.findById(comment.post);
+    if(post && post.commentCount>0){
+        post.commentCount-=1;
+        await post.save();
+    }
+    return comment;
 }
-module.exports={createComment,getAllComments};
+module.exports={createComment,getAllComments,updateComment,deleteComment};
