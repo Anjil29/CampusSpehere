@@ -16,7 +16,7 @@ const CreateComment=async(req,res)=>{
     }
 };
 
-const GetAllComments=async()=>{
+const GetAllComments=async(req,res)=>{
     try{
         const comments=await getAllComments(req.params.postId);
         res.status(200).json({
@@ -49,7 +49,7 @@ const UpdateComment=async(req,res)=>{
 };
 const DeleteComment=async(req,res)=>{
     try{
-        const comment=await Comment(req.params.commentId,req.user);
+        const comment=await deleteComment(req.params.commentId,req.user);
         res.status(200).json({
             success:true,
             message:"Comment deleted successfully"

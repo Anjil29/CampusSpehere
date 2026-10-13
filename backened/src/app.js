@@ -8,6 +8,8 @@ const eventRoutes=require("./routes/eventRoutes");
 const clubRoutes=require("./routes/clubRoutes");
 const postRoutes=require("./routes/postRoutes");
 const commentRoutes=require("./routes/commentRoutes");
+const resourceRoutes=require("./routes/resourceRoutes");
+const notificationRoutes=require("./routes/notificationRoutes");
 // middlewares
 app.use(cors());
 app.use(express.json());
@@ -20,10 +22,13 @@ app.get("/",(req,res)=>{
         }
     );
 });
+app.use("/uploads",express.static("uploads")); //Backend ke uploads folder ke andar jo files hain, unko URL ke through serve karo."
 app.use("/api/v1/auth",authRoutes);
 app.use("/api/v1/notice",noticeRoutes);
 app.use("/api/v1/event",eventRoutes);
 app.use("/api/v1/club",clubRoutes);
 app.use("/api/v1/post",postRoutes);
 app.use("/api/v1/comment",commentRoutes);
+app.use("/api/v1/resource",resourceRoutes);
+app.use("/api/v1/notification", notificationRoutes);
 module.exports=app;

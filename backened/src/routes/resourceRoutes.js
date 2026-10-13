@@ -1,0 +1,12 @@
+const express=require("express");
+const router=express.Router();
+const {CreateResource,GetAllResources,GetResourceById,DownloadResource,UpdateResouce,DeleteResource} = require("../controllers/resourceController");
+const authMiddleware=require("../middleware/authMiddleware");
+const upload=require("../middleware/uploadMiddleware");
+router.post("/createResource",authMiddleware,upload.single("file"),CreateResource);
+router.get("/getAllReosurces",authMiddleware,GetAllResources);
+router.get("/getResourceById",authMiddleware,GetResourceById);
+router.get("downloadResource/:id",authMiddleware,DownloadResource);
+router.delete("/deleteResource",authMiddleware,DeleteResource);
+router.patch("/updateStatus",authMiddleware,UpdateResouce);
+module.exports=router;

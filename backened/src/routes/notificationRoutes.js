@@ -1,0 +1,11 @@
+const express=require("express");
+const router=express.Router();
+const {CreateNotification,FetchNotification,MarkRead,ReadAllNotifications,DeleteNotification,UnreadNotification}=require("../controllers/notificationController");
+const authMiddleware = require("../middleware/authMiddleware");
+router.post("/createNotification",authMiddleware,CreateNotification);
+router.get("/fetchNotifications",authMiddleware,FetchNotification);
+router.patch("/markRead/:id",authMiddleware,MarkRead);
+router.patch("/readAllNotifications",authMiddleware,ReadAllNotifications);
+router.delete("/deleteNotification/:id",authMiddleware,DeleteNotification);
+router.get("/countUnread",authMiddleware,UnreadNotification);
+module.exports=router;
